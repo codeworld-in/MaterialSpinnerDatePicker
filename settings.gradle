@@ -1,0 +1,3 @@
+rootProject.name='SpinnerDatePickerExample'
+include ':app'
+include ':spinnerdatepicker'
