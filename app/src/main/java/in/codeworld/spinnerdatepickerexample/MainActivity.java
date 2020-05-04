@@ -29,11 +29,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 SpinnerDatePicker datePicker = new SpinnerDatePicker(MainActivity.this, new SpinnerDatePicker.DatePickerCallback() {
                     @Override
-                    public void onDateSelected(String dateString, Date dateObject) {
-
+                    public void onDateSelected(String dateString, String rawDateString, Date dateObject) {
                         selectedDate.setText(dateString);
-
                     }
+
                 }).setDividerColor(R.color.colorPrimary)
                         .setNextButtonColor(R.color.colorPrimary)
                         .setNextButtonTextColor(R.color.white)

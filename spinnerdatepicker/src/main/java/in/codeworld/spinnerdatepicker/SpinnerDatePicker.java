@@ -134,7 +134,7 @@ public class SpinnerDatePicker extends Dialog {
                 try {
                     Date dateObject = sdf.parse(dateString);
                     Log.d(TAG, "Date String : " + dateString + " date object : " + dateObject.toString());
-                    callback.onDateSelected(binding.selectedDate.getText().toString(), dateObject);
+                    callback.onDateSelected(binding.selectedDate.getText().toString(), dateString, dateObject);
                     dismiss();
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -308,7 +308,7 @@ public class SpinnerDatePicker extends Dialog {
 
 
     public interface DatePickerCallback {
-        public void onDateSelected(String dateString, Date dateObject);
+        public void onDateSelected(String dateString, String rawDateString, Date dateObject);
     }
 
     public interface RecyclerViewCallback {
