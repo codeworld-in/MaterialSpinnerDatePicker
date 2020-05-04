@@ -77,6 +77,15 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
         return dataSet.get(position);
     }
 
+    public int getPositionOfItem(String valueOf) {
+        for (int i = 0; i < dataSet.size(); i++) {
+            if (valueOf.equals(dataSet.get(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView content;

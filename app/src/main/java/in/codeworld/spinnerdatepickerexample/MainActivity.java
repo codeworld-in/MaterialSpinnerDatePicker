@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 SpinnerDatePicker datePicker = new SpinnerDatePicker(MainActivity.this, new SpinnerDatePicker.DatePickerCallback() {
                     @Override
                     public void onDateSelected(String dateString, String rawDateString, Date dateObject) {
-                        selectedDate.setText(dateString);
+                        selectedDate.setText(rawDateString);
                     }
 
                 }).setDividerColor(R.color.colorPrimary)
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         .setTopBarBGColor(R.color.colorPrimary)
                         .setNextButtonText("Continue")
                         .setYearRange(2000, 2020)
+                        .setDefaultDateToToday()
                         .setCloseOnTouchOutSide(true).setTitle("Select Starting Date : ");
 
                 datePicker.show();

@@ -15,7 +15,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import in.codeworld.spinnerdatepicker.adapter.DateAdapter;
 import in.codeworld.spinnerdatepicker.databinding.SpinnerDatePickerDailogueBinding;
@@ -130,7 +132,7 @@ public class SpinnerDatePicker extends Dialog {
             @Override
             public void onClick(View v) {
                 DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-                String dateString = selectedDay + "-" + selectedMonthIndex + "-" + selectedDay;
+                String dateString = selectedDay + "-" + selectedMonthIndex + "-" + selectedYear;
                 try {
                     Date dateObject = sdf.parse(dateString);
                     Log.d(TAG, "Date String : " + dateString + " date object : " + dateObject.toString());
@@ -302,6 +304,26 @@ public class SpinnerDatePicker extends Dialog {
 
     public SpinnerDatePicker setCloseOnTouchOutSide(boolean newValue) {
         this.setCancelable(newValue);
+        return this;
+    }
+
+    public SpinnerDatePicker setDefaultDateToToday() {
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        int year = calendar.get(Calendar.YEAR);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+
+        int yearPos = yearAdapter.getPositionOfItem(String.valueOf(year));
+        int dayPos = dayAdapter.getPositionOfItem(String.valueOf(day));
+        int monthPos = monthAdapter.getPositionOfItem(String.valueOf(Constants.MONTHS_COMPLETE_ARRAY[month - 1]));
+
+        Log.d(TAG, "Got items : year : " + year + " day: " + day + " month:" + month);
+        Log.d(TAG, "Got items : year : " + yearPos + " daypos: " + dayPos + " monthPos:" + monthPos);
+
+        binding.yearRv.scrollToPosition(yearPos);
+        binding.dayRv.scrollToPosition(dayPos - 1);
+        binding.monthsRv.scrollToPosition(monthPos);
+
         return this;
 
     }
