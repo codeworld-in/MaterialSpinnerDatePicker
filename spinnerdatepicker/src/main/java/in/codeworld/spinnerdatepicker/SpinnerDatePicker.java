@@ -320,12 +320,41 @@ public class SpinnerDatePicker extends Dialog {
         Log.d(TAG, "Got items : year : " + year + " day: " + day + " month:" + month);
         Log.d(TAG, "Got items : year : " + yearPos + " daypos: " + dayPos + " monthPos:" + monthPos);
 
-        binding.yearRv.scrollToPosition(yearPos);
-        binding.dayRv.scrollToPosition(dayPos - 1);
-        binding.monthsRv.scrollToPosition(monthPos);
+        try {
+
+            binding.yearRv.scrollToPosition(yearPos);
+            binding.dayRv.scrollToPosition(dayPos - 1);
+            binding.monthsRv.scrollToPosition(monthPos);
+        } catch (Exception e) {
+            Log.d("DatePickerDailouge", "Unable to set current date: " + e);
+        }
 
         return this;
 
+    }
+
+    public SpinnerDatePicker setDate(Calendar calendar) {
+        int year = calendar.get(Calendar.YEAR);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+
+        int yearPos = yearAdapter.getPositionOfItem(String.valueOf(year));
+        int dayPos = dayAdapter.getPositionOfItem(String.valueOf(day));
+        int monthPos = monthAdapter.getPositionOfItem(String.valueOf(Constants.MONTHS_COMPLETE_ARRAY[month - 1]));
+
+        Log.d(TAG, "Got items : year : " + year + " day: " + day + " month:" + month);
+        Log.d(TAG, "Got items : year : " + yearPos + " daypos: " + dayPos + " monthPos:" + monthPos);
+
+        try {
+
+            binding.yearRv.scrollToPosition(yearPos);
+            binding.dayRv.scrollToPosition(dayPos - 1);
+            binding.monthsRv.scrollToPosition(monthPos);
+        } catch (Exception e) {
+            Log.d("DatePickerDailouge", "Unable to set preselected date: " + e);
+        }
+
+        return this;
     }
 
 

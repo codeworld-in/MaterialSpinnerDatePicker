@@ -7,7 +7,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import in.codeworld.spinnerdatepicker.SpinnerDatePicker;
 
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         selectNewDate = findViewById(R.id.select_new_date);
         selectedDate = findViewById(R.id.selected_date);
+
+        final Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        calendar.set(2020, 2, 25);
 
         selectNewDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         .setNextButtonText("Continue")
                         .setYearRange(2000, 2020)
                         .setDefaultDateToToday()
+                        .setDate(calendar)
                         .setCloseOnTouchOutSide(true).setTitle("Select Starting Date : ");
 
                 datePicker.show();
