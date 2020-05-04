@@ -51,7 +51,11 @@ public class SpinnerDatePicker extends Dialog {
                 Log.d("SpinnerTAG", " Selected  Day : " + dayAdapter.getItem(firstVisibleItemPosition + 1));
                 selectedDay = Integer.parseInt(dayAdapter.getItem(firstVisibleItemPosition + 1));
 
-                // resetAdapterIfNeeded();
+                try {
+                    binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
+                } catch (Exception e) {
+                    Log.d(TAG, "Error while updating the date text : ");
+                }
 
 
             } else if (recyclerView == binding.monthsRv) {
@@ -188,7 +192,11 @@ public class SpinnerDatePicker extends Dialog {
                 setDaysAdapterForMonth();
             }
         }
-        binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
+        try {
+            binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
+        } catch (Exception e) {
+            Log.d(TAG, "Error while updating the date text : ");
+        }
     }
 
     private void setDaysAdapterForMonth() {
