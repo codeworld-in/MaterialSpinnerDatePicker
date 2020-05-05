@@ -1,7 +1,7 @@
 package in.codeworld.spinnerdatepicker;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
@@ -24,9 +24,9 @@ import in.codeworld.spinnerdatepicker.databinding.SpinnerDatePickerDailogueBindi
 import in.codeworld.spinnerdatepicker.others.Constants;
 import in.codeworld.spinnerdatepicker.others.Utils;
 
-public class SpinnerDatePicker extends Dialog {
+public class MaterialSpinnerDatePicker extends Dialog {
 
-    private Context context;
+    private Activity activity;
     private SpinnerDatePickerDailogueBinding binding;
 
     private DateAdapter dayAdapter, monthAdapter, yearAdapter;
@@ -80,36 +80,34 @@ public class SpinnerDatePicker extends Dialog {
 
         }
     };
-    private DatePickerCallback callback;
+    private MaterialDatePickerListener callback;
     private int startingYear = -1, endingYear = -1;
 
-    public SpinnerDatePicker(@NonNull Context context, final DatePickerCallback callback) {
-        super(context);
-        this.context = context;
+    public MaterialSpinnerDatePicker(@NonNull Activity activity) {
+        super(activity);
+        this.activity = activity;
         binding = SpinnerDatePickerDailogueBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        this.callback = callback;
+        daysLayoutManager = new LinearLayoutManager(activity);
+        monthsLayoutManager = new LinearLayoutManager(activity);
+        yearsLayoutManger = new LinearLayoutManager(activity);
 
-        daysLayoutManager = new LinearLayoutManager(context);
-        monthsLayoutManager = new LinearLayoutManager(context);
-        yearsLayoutManger = new LinearLayoutManager(context);
-
-        dayAdapter = new DateAdapter(Constants.CONTENT_TYPE_DAY, context, new RecyclerViewCallback() {
+        dayAdapter = new DateAdapter(Constants.CONTENT_TYPE_DAY, activity, new RecyclerViewCallback() {
             @Override
             public void onHeightGot(int height) {
 
             }
 
         });
-        monthAdapter = new DateAdapter(Constants.CONTENT_TYPE_MONTH, context, new RecyclerViewCallback() {
+        monthAdapter = new DateAdapter(Constants.CONTENT_TYPE_MONTH, activity, new RecyclerViewCallback() {
             @Override
             public void onHeightGot(int height) {
 
             }
 
         });
-        yearAdapter = new DateAdapter(Constants.CONTENT_TYPE_YEAR, context, new RecyclerViewCallback() {
+        yearAdapter = new DateAdapter(Constants.CONTENT_TYPE_YEAR, activity, new RecyclerViewCallback() {
             @Override
             public void onHeightGot(int height) {
 
@@ -140,7 +138,8 @@ public class SpinnerDatePicker extends Dialog {
                 try {
                     Date dateObject = sdf.parse(dateString);
                     Log.d(TAG, "Date String : " + dateString + " date object : " + dateObject.toString());
-                    callback.onDateSelected(binding.selectedDate.getText().toString(), dateString, dateObject);
+                    if (callback != null)
+                        callback.onDateSelected(binding.selectedDate.getText().toString(), dateString, dateObject);
                     dismiss();
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -170,7 +169,7 @@ public class SpinnerDatePicker extends Dialog {
 
         for (int id : ids) {
             View view = findViewById(id);
-            view.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
+            view.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
         }
 
     }
@@ -259,7 +258,7 @@ public class SpinnerDatePicker extends Dialog {
 
     }
 
-    public SpinnerDatePicker setYearRange(int startingYear, int endingYear) {
+    public MaterialSpinnerDatePicker setYearRange(int startingYear, int endingYear) {
         this.startingYear = startingYear;
         this.endingYear = endingYear;
         ArrayList<String> years = new ArrayList<>();
@@ -275,47 +274,48 @@ public class SpinnerDatePicker extends Dialog {
         return this;
     }
 
-    public SpinnerDatePicker setDividerColor(int colorResourceID) {
+    public MaterialSpinnerDatePicker setDividerColor(int colorResourceID) {
         int[] ids = new int[]{R.id.divider1, R.id.divider2, R.id.divider3, R.id.divider4, R.id.divider5, R.id.divider6};
         for (int id : ids) {
             View view = findViewById(id);
-            view.setBackgroundColor(context.getResources().getColor(colorResourceID));
+            view.setBackgroundColor(activity.getResources().getColor(colorResourceID));
         }
 
         return this;
     }
 
-    public SpinnerDatePicker setTopBarBGColor(int colorResourceID) {
-        binding.selectedDate.setBackgroundColor(context.getResources().getColor(colorResourceID));
+    public MaterialSpinnerDatePicker setTopBarBGColor(int colorResourceID) {
+        binding.selectedDate.setBackgroundColor(activity.getResources().getColor(colorResourceID));
         return this;
     }
 
-    public SpinnerDatePicker setNextButtonColor(int colorResourceID) {
-        binding.next.setBackgroundColor(context.getResources().getColor(colorResourceID));
+    public MaterialSpinnerDatePicker setNextButtonColor(int colorResourceID) {
+        binding.next.setBackgroundColor(activity.getResources().getColor(colorResourceID));
         return this;
     }
 
-    public SpinnerDatePicker setTitle(String title) {
+    public MaterialSpinnerDatePicker setTitle(String title) {
         binding.title.setText(title);
         return this;
     }
 
-    public SpinnerDatePicker setNextButtonText(String text) {
+    public MaterialSpinnerDatePicker setNextButtonText(String text) {
         binding.next.setText(text);
         return this;
     }
 
-    public SpinnerDatePicker setNextButtonTextColor(int colorResourceId) {
-        binding.next.setTextColor(context.getResources().getColor(colorResourceId));
+    public MaterialSpinnerDatePicker setNextButtonTextColor(int colorResourceId) {
+        binding.next.setTextColor(activity.getResources().getColor(colorResourceId));
         return this;
     }
 
-    public SpinnerDatePicker setCloseOnTouchOutSide(boolean newValue) {
+    public MaterialSpinnerDatePicker setCloseOnTouchOutSide(boolean newValue) {
         this.setCancelable(newValue);
         return this;
     }
 
-    public SpinnerDatePicker setDefaultDateToToday() {
+    public MaterialSpinnerDatePicker setDefaultDateToToday() {
+
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         int year = calendar.get(Calendar.YEAR);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -341,7 +341,8 @@ public class SpinnerDatePicker extends Dialog {
 
     }
 
-    public SpinnerDatePicker setDate(Calendar calendar) {
+    public MaterialSpinnerDatePicker setDate(Calendar calendar) {
+
         int year = calendar.get(Calendar.YEAR);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
@@ -365,13 +366,39 @@ public class SpinnerDatePicker extends Dialog {
         return this;
     }
 
+    public MaterialSpinnerDatePicker hideTopBar() {
+        binding.selectedDate.setVisibility(View.GONE);
+        return this;
+    }
 
-    public interface DatePickerCallback {
+    public MaterialSpinnerDatePicker setTopBarTextColor(int colorResource) {
+        binding.selectedDate.setTextColor(activity.getResources().getColor(colorResource));
+        return this;
+    }
+
+    public MaterialSpinnerDatePicker setTitleTextColor(int colorResource) {
+        binding.title.setTextColor(activity.getResources().getColor(colorResource));
+        return this;
+    }
+
+
+    public MaterialSpinnerDatePicker hideTitle() {
+        binding.title.setVisibility(View.GONE);
+        return this;
+    }
+
+    public MaterialSpinnerDatePicker setOnDateSelectedListener(MaterialDatePickerListener materialDatePickerListener) {
+        this.callback = materialDatePickerListener;
+        return this;
+    }
+
+
+    public interface MaterialDatePickerListener {
         public void onDateSelected(String dateString, String rawDateString, Date dateObject);
     }
 
     public interface RecyclerViewCallback {
         public void onHeightGot(int height);
-
     }
+
 }

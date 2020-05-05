@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,24 +14,65 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
+        android:textColor="@android:color/black"
         android:gravity="center"
         android:padding="8dp"
         android:text="Selected Date : "
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/select_new_date"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Select New Date"
+        android:layout_marginTop="100dp"
+        android:text="Color Demo 1"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/select_new_date2"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Color Demo 2"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/mixed_color_demo"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@color/yellow"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Mixed Color Demo"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/no_title_no_topbar"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_green_dark"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="No title No Top Bar Demo"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="18sp" />
 

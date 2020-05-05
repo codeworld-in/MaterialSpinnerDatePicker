@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import in.codeworld.spinnerdatepicker.MaterialSpinnerDatePicker;
 import in.codeworld.spinnerdatepicker.R;
-import in.codeworld.spinnerdatepicker.SpinnerDatePicker;
 import in.codeworld.spinnerdatepicker.others.Constants;
 
 public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
@@ -22,9 +22,9 @@ public class DateAdapter extends RecyclerView.Adapter<DateAdapter.ViewHolder> {
     private int height;
     private Context context;
     private ArrayList<String> dataSet;
-    private SpinnerDatePicker.RecyclerViewCallback callback;
+    private MaterialSpinnerDatePicker.RecyclerViewCallback callback;
 
-    public DateAdapter(String contentType, Context context, SpinnerDatePicker.RecyclerViewCallback callback) {
+    public DateAdapter(String contentType, Context context, MaterialSpinnerDatePicker.RecyclerViewCallback callback) {
         this.contentType = contentType;
         this.context = context;
         dataSet = new ArrayList<>();
