@@ -2,7 +2,7 @@
 MaterialSpinnerDatePicker is a date picking library that is built considering the material design standards
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+[![](https://jitpack.io/v/codeworld-in/MaterialSpinnerDatePicker.svg)](https://jitpack.io/#codeworld-in/MaterialSpinnerDatePicker)
 
 ![Demo Image](https://codeworld.in/wp-content/uploads/2020/05/promo_image_material_date_picker.png)
 
