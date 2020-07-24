@@ -255,11 +255,14 @@ public class MaterialSpinnerDatePicker extends Dialog {
 
     public MaterialSpinnerDatePicker setDefaultDateToToday() {
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
         int year = calendar.get(Calendar.YEAR);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
+        month++;
 
+        Log.d("MonthTAG", "month is : " + month);
         binding.dayRv.setMinValue(1);
         binding.dayRv.setMaxValue(31);
 
@@ -269,12 +272,12 @@ public class MaterialSpinnerDatePicker extends Dialog {
         binding.yearRv.setMaxValue(year + 20);
         binding.yearRv.setMinValue(year - 5);
 
-
         try {
             binding.yearRv.setValue(year);
             binding.dayRv.setValue(day);
             binding.monthsRv.setValue(month);
-
+            getSelectedValues();
+            binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
         } catch (Exception e) {
             Log.d("DatePickerDailouge", "Unable to set current date: " + e);
         }
@@ -298,11 +301,11 @@ public class MaterialSpinnerDatePicker extends Dialog {
         binding.yearRv.setMaxValue(year + 20);
         binding.yearRv.setMinValue(year - 5);
 
-
         try {
             binding.yearRv.setValue(year);
             binding.dayRv.setValue(day);
             binding.monthsRv.setValue(month);
+            binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
         } catch (Exception e) {
             Log.d("DatePickerDailouge", "Unable to set preselected date: " + e);
         }
