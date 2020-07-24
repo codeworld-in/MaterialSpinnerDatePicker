@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.NumberPicker;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,52 +32,7 @@ public class MaterialSpinnerDatePicker extends Dialog {
 
     private int selectedDay, selectedMonthIndex, selectedYear;
     private String TAG = "SpinnerDatePicker";
-    RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
 
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            if (recyclerView == binding.dayRv) {
-                int visibleItemCount = daysLayoutManager.getChildCount();
-                int totalItemCount = daysLayoutManager.getItemCount();
-                int firstVisibleItemPosition = daysLayoutManager.findFirstVisibleItemPosition();
-                final int lastItem = firstVisibleItemPosition + visibleItemCount;
-                Log.d("SpinnerTAG", " Selected  Day : " + dayAdapter.getItem(firstVisibleItemPosition + 1));
-                selectedDay = Integer.parseInt(dayAdapter.getItem(firstVisibleItemPosition + 1));
-
-                try {
-                    binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
-                } catch (Exception e) {
-                    Log.d(TAG, "Error while updating the date text : ");
-                }
-
-
-            } else if (recyclerView == binding.monthsRv) {
-                int visibleItemCount = monthsLayoutManager.getChildCount();
-                int totalItemCount = monthsLayoutManager.getItemCount();
-                int firstVisibleItemPosition = monthsLayoutManager.findFirstVisibleItemPosition();
-                final int lastItem = firstVisibleItemPosition + visibleItemCount;
-                Log.d("SpinnerTAG", " Selected Month : " + monthAdapter.getItem(firstVisibleItemPosition + 1));
-                selectedMonthIndex = firstVisibleItemPosition + 1;
-                resetAdapterIfNeeded();
-
-            } else if (recyclerView == binding.yearRv) {
-                int visibleItemCount = yearsLayoutManger.getChildCount();
-                int totalItemCount = yearsLayoutManger.getItemCount();
-                int firstVisibleItemPosition = yearsLayoutManger.findFirstVisibleItemPosition();
-                final int lastItem = firstVisibleItemPosition + visibleItemCount;
-                Log.d("SpinnerTAG", " Selected Month : " + yearAdapter.getItem(firstVisibleItemPosition + 1));
-                selectedYear = Integer.parseInt(yearAdapter.getItem(firstVisibleItemPosition + 1));
-                resetAdapterIfNeeded();
-
-            }
-
-        }
-    };
     private MaterialDatePickerListener callback;
     private int startingYear = -1, endingYear = -1;
 
@@ -116,19 +69,19 @@ public class MaterialSpinnerDatePicker extends Dialog {
 
         });
 
-        binding.dayRv.setLayoutManager(daysLayoutManager);
-        binding.monthsRv.setLayoutManager(monthsLayoutManager);
-        binding.yearRv.setLayoutManager(yearsLayoutManger);
-
-        binding.dayRv.setAdapter(dayAdapter);
-        binding.monthsRv.setAdapter(monthAdapter);
-        binding.yearRv.setAdapter(yearAdapter);
-
-
-        binding.dayRv.addOnScrollListener(recyclerViewOnScrollListener);
-        binding.monthsRv.addOnScrollListener(recyclerViewOnScrollListener);
-        binding.yearRv.addOnScrollListener(recyclerViewOnScrollListener);
+        setOnSpinnerValueChangedListners();
         colorDivider();
+
+        binding.dayRv.setMinValue(1);
+        binding.dayRv.setMaxValue(31);
+        binding.dayRv.setValue(1);
+
+        binding.monthsRv.setMinValue(1);
+        binding.monthsRv.setMaxValue(12);
+        binding.monthsRv.setValue(1);
+
+        binding.yearRv.setMaxValue(2022);
+        binding.yearRv.setMinValue(2020);
 
         binding.next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,34 +100,64 @@ public class MaterialSpinnerDatePicker extends Dialog {
             }
         });
 
-        binding.dayRv.scrollToPosition(1);
-        binding.monthsRv.scrollToPosition(1);
-        binding.yearRv.scrollToPosition(1);
+        binding.dayRv.setValue(1);
 
-        SnapHelper snapHelperDay = new LinearSnapHelper();
-        snapHelperDay.attachToRecyclerView(binding.dayRv);
+    }
 
-        SnapHelper snapHelperMonth = new LinearSnapHelper();
-        snapHelperMonth.attachToRecyclerView(binding.monthsRv);
+    private void setOnSpinnerValueChangedListners() {
 
-        SnapHelper snapHelperYear = new LinearSnapHelper();
-        snapHelperYear.attachToRecyclerView(binding.yearRv);
+        binding.dayRv.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                getSelectedValues();
+                try {
+                    binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
+                } catch (Exception e) {
+                    Log.d(TAG, "Error while updating the date text : ");
+                }
 
+            }
+        });
+
+        binding.monthsRv.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                getSelectedValues();
+                binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
+                resetAdapterIfNeeded();
+            }
+        });
+
+        binding.yearRv.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                getSelectedValues();
+                binding.selectedDate.setText(selectedDay + " " + Constants.MONTHS_COMPLETE_ARRAY[selectedMonthIndex - 1] + " " + selectedYear);
+                resetAdapterIfNeeded();
+            }
+        });
+    }
+
+    private void getSelectedValues() {
+        selectedMonthIndex = binding.monthsRv.getValue();
+        selectedDay = binding.dayRv.getValue();
+        selectedYear = binding.yearRv.getValue();
 
     }
 
     private void colorDivider() {
 
-        int[] ids = new int[]{R.id.divider1, R.id.divider2, R.id.divider3, R.id.divider4, R.id.divider5, R.id.divider6};
+        NumberPicker[] ids = new NumberPicker[]{binding.dayRv, binding.monthsRv, binding.yearRv};
 
-        for (int id : ids) {
-            View view = findViewById(id);
-            view.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
+        for (NumberPicker picker : ids) {
+            // picker.getDividerDrawable().setColorFilter(activity.getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
         }
 
     }
 
     private void resetAdapterIfNeeded() {
+
+        getSelectedValues();
 
         if (Utils.isLeapYear(selectedYear)) {
             if (selectedMonthIndex == 2) {
@@ -203,28 +186,12 @@ public class MaterialSpinnerDatePicker extends Dialog {
         ArrayList<String> days = new ArrayList<>();
         days.add("");
         if (Utils.isMonthContain31Days(selectedMonthIndex)) {
-            for (int i = 1; i <= 31; i++) {
-                days.add(String.valueOf(i));
-            }
-
+            binding.dayRv.setMaxValue(31);
+            binding.dayRv.setMinValue(1);
         } else {
-            for (int i = 1; i <= 30; i++) {
-                days.add(String.valueOf(i));
-            }
+            binding.dayRv.setMaxValue(30);
+            binding.dayRv.setMinValue(1);
         }
-
-        days.add("");
-
-        dayAdapter.setDataSet(days);
-        dayAdapter.notifyDataSetChanged();
-        if (selectedDay < days.size()) {
-            binding.dayRv.smoothScrollToPosition(selectedDay);
-            Log.d(TAG, "Scrolling to preselected item : " + selectedDay);
-        } else {
-            binding.dayRv.smoothScrollToPosition(selectedDay - 1);
-            Log.d(TAG, "Scrolling to last item : " + selectedDay);
-        }
-
 
     }
 
@@ -233,54 +200,26 @@ public class MaterialSpinnerDatePicker extends Dialog {
         ArrayList<String> days = new ArrayList<>();
         days.add("");
         if (isLeapYear) {
-            for (int i = 1; i <= 29; i++) {
-                days.add(String.valueOf(i));
-            }
-
+            binding.dayRv.setMaxValue(29);
         } else {
-            for (int i = 1; i <= 28; i++) {
-                days.add(String.valueOf(i));
-            }
+            binding.dayRv.setMaxValue(28);
         }
-
-        days.add("");
-
-        dayAdapter.setDataSet(days);
-        dayAdapter.notifyDataSetChanged();
-        if (selectedDay < days.size()) {
-            binding.dayRv.smoothScrollToPosition(selectedDay);
-            Log.d(TAG, "Scrolling to preselected item : " + selectedDay);
-        } else {
-            binding.dayRv.smoothScrollToPosition(selectedDay - 1);
-            Log.d(TAG, "Scrolling to last item : " + selectedDay);
-        }
-
 
     }
 
     public MaterialSpinnerDatePicker setYearRange(int startingYear, int endingYear) {
-        this.startingYear = startingYear;
-        this.endingYear = endingYear;
-        ArrayList<String> years = new ArrayList<>();
-        years.add("");
-        for (int i = startingYear; i <= endingYear; i++) {
-            years.add(String.valueOf(i));
-
-        }
-        years.add("");
-        yearAdapter.setDataSet(years);
-        yearAdapter.notifyDataSetChanged();
-
+        binding.yearRv.setMinValue(startingYear);
+        binding.yearRv.setMaxValue(endingYear);
         return this;
     }
 
     public MaterialSpinnerDatePicker setDividerColor(int colorResourceID) {
-        int[] ids = new int[]{R.id.divider1, R.id.divider2, R.id.divider3, R.id.divider4, R.id.divider5, R.id.divider6};
-        for (int id : ids) {
-            View view = findViewById(id);
-            view.setBackgroundColor(activity.getResources().getColor(colorResourceID));
-        }
 
+        NumberPicker[] ids = new NumberPicker[]{binding.dayRv, binding.monthsRv, binding.yearRv};
+
+        for (NumberPicker picker : ids) {
+            // picker.getDividerDrawable().setColorFilter(activity.getResources().getColor(colorResourceID), PorterDuff.Mode.MULTIPLY);
+        }
         return this;
     }
 
@@ -321,18 +260,21 @@ public class MaterialSpinnerDatePicker extends Dialog {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
 
-        int yearPos = yearAdapter.getPositionOfItem(String.valueOf(year));
-        int dayPos = dayAdapter.getPositionOfItem(String.valueOf(day));
-        int monthPos = monthAdapter.getPositionOfItem(String.valueOf(Constants.MONTHS_COMPLETE_ARRAY[month - 1]));
+        binding.dayRv.setMinValue(1);
+        binding.dayRv.setMaxValue(31);
 
-        Log.d(TAG, "Got items : year : " + year + " day: " + day + " month:" + month);
-        Log.d(TAG, "Got items : year : " + yearPos + " daypos: " + dayPos + " monthPos:" + monthPos);
+        binding.monthsRv.setMinValue(1);
+        binding.monthsRv.setMaxValue(12);
+
+        binding.yearRv.setMaxValue(year + 20);
+        binding.yearRv.setMinValue(year - 5);
+
 
         try {
+            binding.yearRv.setValue(year);
+            binding.dayRv.setValue(day);
+            binding.monthsRv.setValue(month);
 
-            binding.yearRv.scrollToPosition(yearPos);
-            binding.dayRv.scrollToPosition(dayPos - 1);
-            binding.monthsRv.scrollToPosition(monthPos);
         } catch (Exception e) {
             Log.d("DatePickerDailouge", "Unable to set current date: " + e);
         }
@@ -347,18 +289,42 @@ public class MaterialSpinnerDatePicker extends Dialog {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
 
-        int yearPos = yearAdapter.getPositionOfItem(String.valueOf(year));
-        int dayPos = dayAdapter.getPositionOfItem(String.valueOf(day));
-        int monthPos = monthAdapter.getPositionOfItem(String.valueOf(Constants.MONTHS_COMPLETE_ARRAY[month - 1]));
+        binding.dayRv.setMinValue(1);
+        binding.dayRv.setMaxValue(31);
 
-        Log.d(TAG, "Got items : year : " + year + " day: " + day + " month:" + month);
-        Log.d(TAG, "Got items : year : " + yearPos + " daypos: " + dayPos + " monthPos:" + monthPos);
+        binding.monthsRv.setMinValue(1);
+        binding.monthsRv.setMaxValue(12);
+
+        binding.yearRv.setMaxValue(year + 20);
+        binding.yearRv.setMinValue(year - 5);
+
 
         try {
+            binding.yearRv.setValue(year);
+            binding.dayRv.setValue(day);
+            binding.monthsRv.setValue(month);
+        } catch (Exception e) {
+            Log.d("DatePickerDailouge", "Unable to set preselected date: " + e);
+        }
 
-            binding.yearRv.scrollToPosition(yearPos);
-            binding.dayRv.scrollToPosition(dayPos - 1);
-            binding.monthsRv.scrollToPosition(monthPos);
+        return this;
+    }
+
+    public MaterialSpinnerDatePicker setDate(int year, int month, int day) {
+
+        binding.dayRv.setMinValue(1);
+        binding.dayRv.setMaxValue(31);
+
+        binding.monthsRv.setMinValue(1);
+        binding.monthsRv.setMaxValue(12);
+
+        binding.yearRv.setMaxValue(year + 20);
+        binding.yearRv.setMinValue(year - 5);
+
+        try {
+            binding.yearRv.setValue(year);
+            binding.dayRv.setValue(day);
+            binding.monthsRv.setValue(month);
         } catch (Exception e) {
             Log.d("DatePickerDailouge", "Unable to set preselected date: " + e);
         }
@@ -381,7 +347,6 @@ public class MaterialSpinnerDatePicker extends Dialog {
         return this;
     }
 
-
     public MaterialSpinnerDatePicker hideTitle() {
         binding.title.setVisibility(View.GONE);
         return this;
@@ -391,7 +356,6 @@ public class MaterialSpinnerDatePicker extends Dialog {
         this.callback = materialDatePickerListener;
         return this;
     }
-
 
     public interface MaterialDatePickerListener {
         public void onDateSelected(String dateString, String rawDateString, Date dateObject);

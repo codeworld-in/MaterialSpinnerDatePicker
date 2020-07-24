@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView
@@ -26,6 +27,7 @@
             android:padding="16dp"
             android:text="Choose Date : "
             android:textColor="#000000"
+            android:background="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -33,6 +35,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:background="@color/white"
             android:padding="8dp">
 
             <LinearLayout
@@ -41,24 +44,37 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:padding="8dp"
+                android:background="@color/white"
                 android:weightSum="5">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <NumberPicker
                     android:id="@+id/day_rv"
                     android:layout_width="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:descendantFocusability="blocksDescendants"
+                    android:theme="@style/AppTheme"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1.5" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <NumberPicker
                     android:id="@+id/months_rv"
                     android:layout_width="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:descendantFocusability="blocksDescendants"
+                    android:theme="@style/AppTheme"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="2" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <NumberPicker
                     android:id="@+id/year_rv"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:descendantFocusability="blocksDescendants"
+                    android:theme="@style/AppTheme"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -66,116 +82,116 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="horizontal"
-                android:weightSum="3">
+            <!--  <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:orientation="horizontal"
+                  android:weightSum="3">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                  <LinearLayout
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="8dp"
+                      android:layout_marginRight="8dp"
+                      android:layout_weight="1"
+                      android:orientation="vertical">
 
-                    <View
-                        android:id="@+id/divider1"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#000000"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:tag="divider" />
+                      <View
+                          android:id="@+id/divider1"
+                          android:layout_width="match_parent"
+                          android:layout_height="2dp"
+                          android:background="#000000"
+                          android:paddingLeft="4dp"
+                          android:paddingRight="4dp"
+                          android:tag="divider" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp" />
-
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#000000"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:tag="divider" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <View
-                        android:id="@+id/divider3"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#000000"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:tag="divider" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp" />
+                      <View
+                          android:layout_width="match_parent"
+                          android:layout_height="55dp" />
 
 
-                    <View
-                        android:id="@+id/divider4"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#000000"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:tag="divider" />
+                      <View
+                          android:id="@+id/divider2"
+                          android:layout_width="match_parent"
+                          android:layout_height="2dp"
+                          android:background="#000000"
+                          android:paddingLeft="4dp"
+                          android:paddingRight="4dp"
+                          android:tag="divider" />
+
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="8dp"
+                      android:layout_marginRight="8dp"
+                      android:layout_weight="1"
+                      android:orientation="vertical">
+
+                      <View
+                          android:id="@+id/divider3"
+                          android:layout_width="match_parent"
+                          android:layout_height="2dp"
+                          android:background="#000000"
+                          android:paddingLeft="4dp"
+                          android:paddingRight="4dp"
+                          android:tag="divider" />
+
+                      <View
+                          android:layout_width="match_parent"
+                          android:layout_height="55dp" />
 
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <View
-                        android:id="@+id/divider5"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#000000"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:tag="divider" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp" />
+                      <View
+                          android:id="@+id/divider4"
+                          android:layout_width="match_parent"
+                          android:layout_height="2dp"
+                          android:background="#000000"
+                          android:paddingLeft="4dp"
+                          android:paddingRight="4dp"
+                          android:tag="divider" />
 
 
-                    <View
-                        android:id="@+id/divider6"
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#000000"
-                        android:paddingLeft="4dp"
-                        android:paddingRight="4dp"
-                        android:tag="divider" />
+                  </LinearLayout>
+
+                  <LinearLayout
+                      android:layout_width="0dp"
+                      android:layout_height="wrap_content"
+                      android:layout_marginLeft="8dp"
+                      android:layout_marginRight="8dp"
+                      android:layout_weight="1"
+                      android:orientation="vertical">
+
+                      <View
+                          android:id="@+id/divider5"
+                          android:layout_width="match_parent"
+                          android:layout_height="2dp"
+                          android:background="#000000"
+                          android:paddingLeft="4dp"
+                          android:paddingRight="4dp"
+                          android:tag="divider" />
+
+                      <View
+                          android:layout_width="match_parent"
+                          android:layout_height="55dp" />
 
 
-                </LinearLayout>
+                      <View
+                          android:id="@+id/divider6"
+                          android:layout_width="match_parent"
+                          android:layout_height="2dp"
+                          android:background="#000000"
+                          android:paddingLeft="4dp"
+                          android:paddingRight="4dp"
+                          android:tag="divider" />
 
 
-            </LinearLayout>
+                  </LinearLayout>
+
+
+              </LinearLayout>-->
 
         </RelativeLayout>
 

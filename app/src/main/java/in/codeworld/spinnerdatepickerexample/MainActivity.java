@@ -3,6 +3,7 @@ package in.codeworld.spinnerdatepickerexample;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
         final Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         calendar.set(2020, 2, 25);
 
+        NumberPicker numberPicker = findViewById(R.id.some_picker);
+        numberPicker.setMaxValue(10);
+        numberPicker.setValue(8);
+
         selectNewDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,10 +44,7 @@ public class MainActivity extends AppCompatActivity {
                         .setNextButtonTextColor(R.color.white)
                         .setTopBarBGColor(R.color.colorPrimary)
                         .setNextButtonText("Next")
-                        .setYearRange(2000, 2020)
-                        .setDefaultDateToToday()
-                        .setDate(calendar)
-                        .setCloseOnTouchOutSide(true)
+                        .setDate(2020, 2, 25)
                         .setTitle("Color Demo 1 ")
                         .setOnDateSelectedListener(new MaterialSpinnerDatePicker.MaterialDatePickerListener() {
                             @Override
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                         .setNextButtonTextColor(R.color.white)
                         .setTopBarBGColor(R.color.colorAccent)
                         .setNextButtonText("Next")
-                        .setYearRange(2000, 2020)
+                        .setYearRange(2000, 2025)
                         .setDefaultDateToToday()
                         .setCloseOnTouchOutSide(true)
                         .setTitle("Color Demo 2 ")
